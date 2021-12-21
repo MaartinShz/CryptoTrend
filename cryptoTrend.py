@@ -1,10 +1,8 @@
-#from jvc import *
 from requests_html import HTMLSession
 import re
 
+
 #Topics = getTopics("https://www.jeuxvideo.com/forums/0-3011927-0-1-0-1-0-finance.htm")
-#"http://www.jeuxvideo.com/forums/0-51-0-1-0-1-0-blabla-18-25-ans.htm")
-#https://www.jeuxvideo.com/forums/0-3011927-0-1-0-1-0-finance.htm")
         
 def getTopic():
     session = HTMLSession()
@@ -26,8 +24,21 @@ def getTopic():
         #print(top)
         #print("\n")
     return listeTopicBrut
+
+
+def getUrlTopic():    
+    session = HTMLSession()
+    url = session.get("https://www.jeuxvideo.com/forums/0-3011927-0-1-0-1-0-finance.htm")
+    e=[]
+    for match in re.finditer("<a class=\"lien-jv topic-title\" href=\"", url.text):
+         e.append(match.end())
     
+    if (len(e)==25):# car JVC n'affcihe que les 25 plus récent forum #on s'assure de bien les avoir
+        listeUrlTopic=[]
+        for i in range(len(e)):
+            link = url.text[e[i]:url.text.find(".htm",e[i])+4]
+            listeUrlTopic.append('https://www.jeuxvideo.com/ '+link)
+        return listeUrlTopic
 
-def getUrlTopic():
-    return False
 
+    
