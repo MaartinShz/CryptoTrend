@@ -1,10 +1,9 @@
 from requests_html import HTMLSession
 import re
 
-
 #Topics = getTopics("https://www.jeuxvideo.com/forums/0-3011927-0-1-0-1-0-finance.htm")
         
-def getTopic():
+def getTopics():
     session = HTMLSession()
     url = session.get("https://www.jeuxvideo.com/forums/0-3011927-0-1-0-1-0-finance.htm")
     topics = url.html.find("a.topic-title")
@@ -15,18 +14,9 @@ def getTopic():
         #topic.text.find("Page suivante") #renvoi la fin de la listes des topics
     
     listeTopicBrut = re.split('\n',BlocTopicBrut)
-    ### TO IMPROVE
-    #for top in listeTopicBrut:
-        #on essaye d'enlever au max le nb msg l'auteur et l'heure des chiane
-        #pseudo 15 + date 8 + 2 espacce + 5 ~ nb msg = 30
-        #top = top[0:top.find(" ",-30)]
-        
-        #print(top)
-        #print("\n")
     return listeTopicBrut
 
-
-def getUrlTopic():    
+def getUrlTopics():    
     session = HTMLSession()
     url = session.get("https://www.jeuxvideo.com/forums/0-3011927-0-1-0-1-0-finance.htm")
     e=[]
@@ -40,5 +30,13 @@ def getUrlTopic():
             listeUrlTopic.append('https://www.jeuxvideo.com/ '+link)
         return listeUrlTopic
 
-
+def getpostsTopic(urlTopic):#retourne toute les posts d'un topic passer en paramètre    
+    #urlTopic="https://www.jeuxvideo.com/forums/42-3011927-68489642-1-0-1-0-ca-marche-kda-ou-pas.htm"
+    session = HTMLSession()
+    url = session.get(urlTopic)
+    posts = url.html.find(".bloc-message-forum")
+    listeposteBrut = re.split('\n',posts[0].text[:posts[0].text.find("Page suivante")-1])
+    # tout les posts sont contenus dans posts[0s]
+    
+    return listeposteBrut
     
