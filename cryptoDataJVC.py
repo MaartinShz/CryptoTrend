@@ -45,7 +45,5 @@ def getPostsTopic(urlTopic):#retourne toute les posts d'un topic passer en param
     listePostBrut = posts[0].text[:posts[0].text.find("Page suivante")-1]
     listePostBrut = re.split('\n',listePostBrut)
     # tout les posts sont contenus dans posts[0]
-    return listePosteBrut
-#print(getpostsTopic("https://www.jeuxvideo.com/forums/42-3011927-62814144-1-0-1-0-terra-luna.htm"))
-
+    return listePostBrut
 
