@@ -14,9 +14,9 @@ def getCryptoKey(listemots):
 
 
 # ## EXEMPLE ##
-# import cryptoDataJVC
-# url = "https://www.jeuxvideo.com/forums/42-3011927-68193322-1-0-1-0-ceek-vr-meta-space-x-nasa-votre-excuse-pour-ne-pas-monter-dans-le-train.htm"
-# x = cryptoDataJVC.getPostsTopic(url)
-# y=getCryptoKey(x)
-# print(y)
+import cryptoDataJVC
+url = "https://www.jeuxvideo.com/forums/42-3011927-68193322-1-0-1-0-ceek-vr-meta-space-x-nasa-votre-excuse-pour-ne-pas-monter-dans-le-train.htm"
+x = cryptoDataJVC.getPostsTopic(url)
+y=getCryptoKey(x)
+print(y)
 
