@@ -64,19 +64,15 @@ for symbol in listeCrypto:
             liste_crypto.append(new_crypto)
             print("---------------------------------------------")
             print("Crypto ajoutée ("+nomSymbol+")")
-            print("---------------------------------------------")
         else:
             print("---------------------------------------------")
-            print("MarketCap déjà élevé : cela ne nous intéresse pas")
-            print("---------------------------------------------")
+            print("MarketCap déjà élevé : cela ne nous intéresse pas ("+nomSymbol+")")
     except KeyError:
         print("---------------------------------------------")
         print("Cette crypto n'existe pas ("+nomSymbol+")")
-        print("---------------------------------------------")
     except TypeError:
         print("---------------------------------------------")
-        print("Information manquante")
-        print("---------------------------------------------")
+        print("Information manquante ("+nomSymbol+")")
         
   
 
