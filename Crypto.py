@@ -42,14 +42,14 @@ class Texte:
         return f'Texte({self.id}, {self.source})'
     
 class TexteReddit(Texte):
-    def __init__(self, id, url, source, titre, texte, auteur, nbCommentaite, upvote):
+    def __init__(self, id, url, source, titre, texte, auteur, nbCommentaite, upvote, dateCreation):
         Texte.__init__(self, id, url, source)
         self.titre =  titre
         self.texte = texte
         self.auteur = auteur
         self.nbCommentaite = nbCommentaite
         self.upvote = upvote
-        
+        self.dateCreation = dateCreation
     def __str__(self):
         return f'TexteReddit({self.id}, {self.source}, {self.upvote})'
 
