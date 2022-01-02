@@ -40,45 +40,53 @@ url = "https://www.jeuxvideo.com/forums/42-3011927-68193322-1-0-1-0-ceek-vr-meta
 x = cryptoDataJVC.getPostsTopic(url)
 listeCrypto=cryptoFindKey.getCryptoKey(x)
 listeCrypto
-# /!\ SUPPRIMER LES DOUBLONS
 
 #---------------------------
 #On créé les cryptos existantes que l'on ajoute à la liste des cryptos
 #--------------------------- 
 
-liste_crypto=[]
+def create_liste(postsTopic,listeCrypto):
+    liste_crypto=[] #contient les instances de classe
+    crypto_in_liste=[] #contient les symbole dans crypto dans liste_crypto
+    for symbol in listeCrypto:
+        nomSymbol=symbol
+        test=validCrypto(nomSymbol)
+        test
+        try: #marketcap < 1 milliard et crypto pas déjà dans la liste
+            if(test['data'][nomSymbol]['quote']['USD']['market_cap']<1000000000 and nomSymbol not in crypto_in_liste): 
+                cle=test['data'][nomSymbol]['id']
+                nom=test['data'][nomSymbol]['name']
+                marketcap=test['data'][nomSymbol]['quote']['USD']['market_cap']
+                prix=test['data'][nomSymbol]['quote']['USD']['price']
+                launch=test['data'][nomSymbol]['date_added'] #recoder la date ?
+                localisation=test['data'][nomSymbol]['platform']['symbol']
+                new_crypto = Crypto(cle, nom, marketcap, prix, launch, localisation)
+                liste_crypto.append(new_crypto)
+                crypto_in_liste.append(nomSymbol)
+                #print(new_crypto) # JE COMPRENDS PAS POURQUOI CA MARCHE PAS
+                #print(new_crypto.get_cle()) #CA NON PLUS
+                
+                print("---------------------------------------------")
+                print("Crypto ajoutée ("+nomSymbol+")")
+            else:
+                print("---------------------------------------------")
+                print("MarketCap déjà élevé / Crypto déjà dans la liste ("+nomSymbol+")")
+        except KeyError:
+            print("---------------------------------------------")
+            print("Cette crypto n'existe pas ("+nomSymbol+")")
+        except TypeError:
+            print("---------------------------------------------")
+            print("Information manquante ("+nomSymbol+")")
+    return(liste_crypto)
 
-for symbol in listeCrypto:
-    nomSymbol=symbol
-    test=validCrypto(nomSymbol)
-    test
-    try:
-        if(test['data'][nomSymbol]['quote']['USD']['market_cap']<1000000000): #marketcap<1 milliard (voir si on garde cette valeur)
-            cle=test['data'][nomSymbol]['id']
-            nom=test['data'][nomSymbol]['name']
-            marketcap=test['data'][nomSymbol]['quote']['USD']['market_cap']
-            prix=test['data'][nomSymbol]['quote']['USD']['price']
-            launch=test['data'][nomSymbol]['date_added'] #recoder la date ?
-            localisation=test['data'][nomSymbol]['platform']['symbol']
-            new_crypto = Crypto(cle, nom, marketcap, prix, launch, localisation)
-            liste_crypto.append(new_crypto)
-            print("---------------------------------------------")
-            print("Crypto ajoutée ("+nomSymbol+")")
-            print("---------------------------------------------")
-        else:
-            print("---------------------------------------------")
-            print("MarketCap déjà élevé : cela ne nous intéresse pas")
-            print("---------------------------------------------")
-    except KeyError:
-        print("---------------------------------------------")
-        print("Cette crypto n'existe pas ("+nomSymbol+")")
-        print("---------------------------------------------")
-    except TypeError:
-        print("---------------------------------------------")
-        print("Information manquante")
-        print("---------------------------------------------")
-        
-  
+
+#test=create_liste(x,listeCrypto)
+#test
+
+tab=["yoyoyo","yo","Ethereum"," $ 42","$ 1000","12 Novembre 1999"]
+tab[0]
+
+
 
 
 
