@@ -1,0 +1,9 @@
+package necessaire
+
+requests-html :
+	conda install -c conda-forge requests-html
+praw :
+	conda install -c conda-forge praw
+re
+requests
+json
