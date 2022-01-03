@@ -12,7 +12,7 @@ class Crypto:
        return f"{self.cle}, {self.nom}, {self.marketCap}"  
      # Fonction qui renvoie le texte à afficher lorsqu'on tape repr(classe)
     def __repr__(self):
-        return f"{self.cle}, {self.nom}, {self.marketCap}" 
+        return f"{self.nom}" 
     
     def get_cle(self):
         return self.cle
@@ -52,8 +52,16 @@ class TexteReddit(Texte):
         self.dateCreation = dateCreation
     def __str__(self):
         return f'TexteReddit({self.id}, {self.source}, {self.upvote})'
+    def __repr__(self):
+        return f"{self.titre}" 
 
 #test = Crypto('cle', 'nom', 'marketCap', 'price', 'launch', 'localisation')
 #test = Texte('id', 'url', 'source')
-#test = TexteReddit('id', 'url', 'source', 'upvote', 'nbCommentaire')
-#print(test)
+#tester = TexteReddit('id', 'url', 'source','titre','texte','auteur','nbCommentaire','upvote','dateCrea')
+#print(tester)
+
+
+
+
+
+

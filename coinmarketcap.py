@@ -1,6 +1,7 @@
 from requests import Request, Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
+import decimal
 
 #---------------------------
 #fonction validCrypto : si la crypto existe, on récupère ses données
@@ -14,7 +15,7 @@ def validCrypto(symbole):
         }
     headers = {
         'Accepts': 'application/json',
-        'X-CMC_PRO_API_KEY': '994352b1-f247-4a59-82e4-0f117bf65dbf',
+        'X-CMC_PRO_API_KEY': '79674268-4592-43f3-8fb2-1ddb6939b324',
     }
     
     session = Session()
@@ -37,9 +38,10 @@ import cryptoDataJVC
 import cryptoFindKey
 
 url = "https://www.jeuxvideo.com/forums/42-3011927-68193322-1-0-1-0-ceek-vr-meta-space-x-nasa-votre-excuse-pour-ne-pas-monter-dans-le-train.htm"
-x = cryptoDataJVC.getPostsTopic(url)
+#x = cryptoDataJVC.getTopics()
+x = cryptoDataJVC.getPostsTopic(url) #j'ai remis ca pour l'instant ca utilise moins de crédits
 listeCrypto=cryptoFindKey.getCryptoKey(x)
-listeCrypto
+
 
 #---------------------------
 #On créé les cryptos existantes que l'on ajoute à la liste des cryptos
@@ -50,27 +52,24 @@ def create_liste(postsTopic,listeCrypto):
     crypto_in_liste=[] #contient les symbole dans crypto dans liste_crypto
     for symbol in listeCrypto:
         nomSymbol=symbol
-        test=validCrypto(nomSymbol)
-        test
+        recup=validCrypto(nomSymbol)
         try: #marketcap < 1 milliard et crypto pas déjà dans la liste
-            if(test['data'][nomSymbol]['quote']['USD']['market_cap']<1000000000 and nomSymbol not in crypto_in_liste): 
-                cle=test['data'][nomSymbol]['id']
-                nom=test['data'][nomSymbol]['name']
-                marketcap=test['data'][nomSymbol]['quote']['USD']['market_cap']
-                prix=test['data'][nomSymbol]['quote']['USD']['price']
-                launch=test['data'][nomSymbol]['date_added'] #recoder la date ?
-                localisation=test['data'][nomSymbol]['platform']['symbol']
+            if(0<recup['data'][nomSymbol]['quote']['USD']['market_cap']<1000000000 and (nomSymbol not in crypto_in_liste)): 
+                cle=recup['data'][nomSymbol]['symbol']
+                nom=recup['data'][nomSymbol]['name']
+                marketcap=round(recup['data'][nomSymbol]['quote']['USD']['market_cap'],2)
+                prix=round(recup['data'][nomSymbol]['quote']['USD']['price'],10)
+                launch=recup['data'][nomSymbol]['date_added'] #recoder la date ?
+                localisation=recup['data'][nomSymbol]['platform']['symbol']
                 new_crypto = Crypto(cle, nom, marketcap, prix, launch, localisation)
                 liste_crypto.append(new_crypto)
                 crypto_in_liste.append(nomSymbol)
-                #print(new_crypto) # JE COMPRENDS PAS POURQUOI CA MARCHE PAS
-                #print(new_crypto.get_cle()) #CA NON PLUS
-                
+                #print(new_crypto.get_cle()) 
                 print("---------------------------------------------")
                 print("Crypto ajoutée ("+nomSymbol+")")
             else:
                 print("---------------------------------------------")
-                print("MarketCap déjà élevé / Crypto déjà dans la liste ("+nomSymbol+")")
+                print("MarketCap déjà élevé ou non indiqué / Crypto déjà dans la liste ("+nomSymbol+")")
         except KeyError:
             print("---------------------------------------------")
             print("Cette crypto n'existe pas ("+nomSymbol+")")
@@ -80,14 +79,17 @@ def create_liste(postsTopic,listeCrypto):
     return(liste_crypto)
 
 
-#test=create_liste(x,listeCrypto)
-#test
-
+cryptoValid=create_liste(x,listeCrypto)
+"""
+print(cryptoValid)
+print(cryptoValid[1].get_cle())
+print(cryptoValid[0].get_nom())
+print(cryptoValid[1].get_marketCap())
+cryptoValid[0].get_price()
+cryptoValid[4].get_launch()[0:10]
+cryptoValid[0].get_localisation()
+"""
 tab=["yoyoyo","yo","Ethereum"," $ 42","$ 1000","12 Novembre 1999"]
-tab[0]
-
-
-
-
+tab2=["test","tt","Ethereum"," $ 1000","$ 777","12 Novembre 1999"]
 
 
