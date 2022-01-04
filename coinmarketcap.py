@@ -36,6 +36,7 @@ def validCrypto(symbole):
 from Crypto import Crypto
 import cryptoDataJVC
 import cryptoFindKey
+import cryptoFindInfo
 
 url = "https://www.jeuxvideo.com/forums/42-3011927-68193322-1-0-1-0-ceek-vr-meta-space-x-nasa-votre-excuse-pour-ne-pas-monter-dans-le-train.htm"
 #x = cryptoDataJVC.getTopics()
@@ -89,7 +90,13 @@ cryptoValid[0].get_price()
 cryptoValid[4].get_launch()[0:10]
 cryptoValid[0].get_localisation()
 """
-tab=["yoyoyo","yo","Ethereum"," $ 42","$ 1000","12 Novembre 1999"]
-tab2=["test","tt","Ethereum"," $ 1000","$ 777","12 Novembre 1999"]
+#tab=["yoyoyo","yo","Ethereum"," $ 42","$ 1000","12 Novembre 1999"]
+#tab2=["test","tt","Ethereum"," $ 1000","$ 777","12 Novembre 1999"]
+
+lst=cryptoFindInfo.callReddit('ceek')
+lst
+lst[4].get_titre()
+len(lst)
+
 
 

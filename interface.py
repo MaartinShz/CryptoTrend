@@ -2,46 +2,53 @@
 from tkinter import *
 from tkinter import ttk
 import coinmarketcap
-
+import cryptoFindInfo
 
 #creer fenetre
 window = Tk()
 
-#Recupérer la valeur de l'item sélectionné
+#Recupérer la valeur de l'item sélectionné et l'affiche
 def selectItem(a):
     curItem = tree.selection()[0]
     print(curItem)
     
+    idCrypto=coinmarketcap.cryptoValid[int(curItem)].get_cle() #Retrouver la clé de la bonne crypto à partir de son numéro
+    infoTexte=cryptoFindInfo.callReddit(idCrypto) #On stock dans infoTexte les texte liés à la crypto sélectionnée
+    
     win = Toplevel(window)
-    win.title(coinmarketcap.cryptoValid[int(curItem)].get_nom())
+    win.title("Information sur les textes comptenants la crypto") 
     win.geometry("1080x720")
     win.minsize(610,360)
     win.iconbitmap("logo_btc.ico") #revoir le logo
     win.config(background='#5C5E73')
     #titre
     framebis = Frame(win, bg='#5C5E73', bd=1, relief=SUNKEN)
+    #Affiche le nom de la crypto en titre
     label_titlebis=Label(framebis, text=coinmarketcap.cryptoValid[int(curItem)].get_nom(), font=("Verdana",30),bg='#5C5E73',fg='white')
     label_titlebis.pack()
     framebis.pack(padx=20,pady=40)    
     
     #Tableau
     frame_tabbis = Frame(win)
-    frame_tabbis.pack(padx=20,pady=40)
+    frame_tabbis.pack(padx=20,pady=20)
     
     treebis=ttk.Treeview(frame_tabbis, columns=(1,2,3,4),show="headings",height="10")
     treebis['columns']=("Titre","Url","Nbcom","Votes")
-    treebis.column("Titre",width=150)
+    treebis.column("Titre",width=300)
     treebis.column("Url",width=150)
     treebis.column("Nbcom",width=200)
     treebis.column("Votes",width=150)
     ##Heading
-    treebis.heading("Titre",text="Nom")
+    treebis.heading("Titre",text="Titre")
     treebis.heading("Url",text="Url")
     treebis.heading("Nbcom",text="Nombre de Commentaires")
     treebis.heading("Votes",text="Votes positifs")
+    
+    for i in range(len(infoTexte)):
+        treebis.insert(parent='',index='end',iid=i,text="Parent",
+          values=(infoTexte[i].get_titre(),infoTexte[i].get_url(),infoTexte[i].get_nbCommentaire(),infoTexte[i].get_upvote() ))
+
     treebis.pack()
-    
-    
     
 #personnalisation
 window.title("Crypto Trend")
