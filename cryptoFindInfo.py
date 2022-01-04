@@ -25,7 +25,7 @@ def callReddit(cryptoCle):
         for postCrypto in subreddit:
             
             ###(self, id, url, source, titre, texte, auteur, nbCommentaite, upvote)
-            txtReddit = Crypto.TexteReddit("id", postCrypto.url, "reddit",postCrypto.title, postCrypto.selftext, postCrypto.author, postCrypto.num_comments, postCrypto.score, postCrypto.created_utc)
+            txtReddit = Crypto.TexteReddit("id", postCrypto.url, postCrypto.title, postCrypto.selftext, postCrypto.author, postCrypto.num_comments, postCrypto.score, postCrypto.created_utc)
             docsReddit.append(txtReddit)
             
     #---------------------------
@@ -33,8 +33,8 @@ def callReddit(cryptoCle):
     #---------------------------
     postsearch = reddit.subreddit('all')
     for postCryptoAll in postsearch.search(cryptoCle, limit=10):
-        txtRedditAll = Crypto.TexteReddit("id", postCryptoAll.url, "reddit",postCryptoAll.title, postCryptoAll.selftext, postCryptoAll.author, postCryptoAll.num_comments, postCryptoAll.score, postCryptoAll.created_utc)
-        docsReddit.append(txtReddit)
+        txtRedditAll = Crypto.TexteReddit("id", postCryptoAll.url, postCryptoAll.title, postCryptoAll.selftext, postCryptoAll.author, postCryptoAll.num_comments, postCryptoAll.score, postCryptoAll.created_utc)
+        docsReddit.append(txtRedditAll)
        
     return docsReddit
 
@@ -46,22 +46,36 @@ def callJVC(cryptoCle):
     session = HTMLSession()
     url = session.get(link)
     page = url.html.find("a.topic-title")
-    print(len(page))
+    
+    
     
     BlocInfos = page[0].text[0:page[0].text.find("Résultats pour la recherche de")-1]
     #print(BlocInfos)
     listeInfos = re.split('\n',BlocInfos)
     #print(listeInfos)
     for ligne in listeInfos:
+        pos=[]
+        for match in re.finditer(" ", ligne):
+            pos.append(match.start())
+        
+        titreJVC = ligne[0:pos[-3]]
+        
         chaine = re.split(" ", ligne)
         
-        print(chaine[0:-3])#titre
-        auteur = chaine[-3])#auteur
-        nbMsg = haine[-2])#nb msg
-        date = chaine[-1])#date
+        auteurJVC = chaine[-3]#auteur
+        nbMsgJVC = chaine[-2]#nb msg
+        dateDernierMsgJVC = chaine[-1]#date
+        
+        txtJVC= Crypto.TexteJVC('id', 'url', titreJVC, auteurJVC, nbMsgJVC, dateDernierMsgJVC)
+        docsReddit.append(txtJVC)
+        
+    ####
+    #data = url.html.links
+    # for x in data:
+    #     print(x)
 
-    
+  
     return docsReddit
 
 
-print(callJVC('ceek'))
+#print(callJVC('ceek'))

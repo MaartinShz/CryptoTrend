@@ -52,8 +52,8 @@ class Texte:
     
     
 class TexteReddit(Texte):
-    def __init__(self, id, url, source, titre, texte, auteur, nbCommentaire, upvote, dateCreation):
-        Texte.__init__(self, id, url, source)
+    def __init__(self, id, url, titre, texte, auteur, nbCommentaire, upvote, dateCreation):
+        Texte.__init__(self, id, url, 'reddit')
         self.titre =  titre
         self.texte = texte
         self.auteur = auteur
@@ -75,6 +75,29 @@ class TexteReddit(Texte):
     
     def get_upvote(self):
         return self.upvote
+    
+class TexteJVC(Texte):
+    def __init__(self, id, url, titre, auteur, nbMsg, dateDernierMsg):
+        Texte.__init__(self, id, url, 'jvc')
+        self.titre =  titre
+        self.auteur = auteur
+        self.nbMsg = nbMsg
+        self.dateDernierMsg = dateDernierMsg
+        
+    def __str__(self):
+        return f'TexteJVC({self.id}, {self.source}, {self.dateDernierMsg})'
+    
+    def __repr__(self):
+        return f"{self.source}, {self.titre}"
+    
+    def get_titre(self):
+        return self.titre
+
+    def get_nbCommentaire(self):
+        return self.nbMsg
+    
+    def get_upvote(self):
+        return self.dateDernierMsg
     
     
 
