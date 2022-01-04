@@ -7,15 +7,14 @@ import re
 def callReddit(cryptoCle):
     docsReddit=[]
     reddit = praw.Reddit(client_id='K-MXXSpylsdQT0bK2QZ-ZA', client_secret='853z2OVS5DKax8hcESS-B8rU1RkJqA', user_agent='test8080')
-   
     
     exists = True
     try:
         reddit.subreddits.search_by_name(cryptoCle, exact=True)
-        print('subreddit dedié existe')
+        #print('subreddit dedié existe')
     except NotFound:
         exists = False
-        print('subreddit dedié nexiste pas')
+        #print('subreddit dedié nexiste pas')
     
     if(exists):
         #---------------------------
@@ -40,7 +39,7 @@ def callReddit(cryptoCle):
 
 
 def callJVC(cryptoCle):
-    docsReddit=[]
+    docsJVC=[]
     link ="https://www.jeuxvideo.com/recherche/forums/0-3011927-0-1-0-1-0-finance.htm?search_in_forum="+cryptoCle+"&type_search_in_forum=titre_topic"
     
     session = HTMLSession()
@@ -67,15 +66,19 @@ def callJVC(cryptoCle):
         dateDernierMsgJVC = chaine[-1]#date
         
         txtJVC= Crypto.TexteJVC('id', 'url', titreJVC, auteurJVC, nbMsgJVC, dateDernierMsgJVC)
-        docsReddit.append(txtJVC)
+        docsJVC.append(txtJVC)
         
     ####
     #data = url.html.links
     # for x in data:
     #     print(x)
 
-  
-    return docsReddit
-
+    return docsJVC
 
 #print(callJVC('ceek'))
+#print(callReddit('ceek'))
+#test=callJVC('ceek')
+#test[0].get_dateDernierMsg() #Out[7]: '08:39:17' Jsp si c'est utilisable ça
+
+
+

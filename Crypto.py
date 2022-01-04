@@ -96,15 +96,8 @@ class TexteJVC(Texte):
     def get_nbCommentaire(self):
         return self.nbMsg
     
-    def get_upvote(self):
+    def get_dateDernierMsg(self):
         return self.dateDernierMsg
-    
-    
-
-#test = Crypto('cle', 'nom', 'marketCap', 'price', 'launch', 'localisation')
-#test = Texte('id', 'url', 'source')
-#tester = TexteReddit('id', 'url', 'source','titre','texte','auteur','nbCommentaire','upvote','dateCrea')
-#print(tester)
 
 
 

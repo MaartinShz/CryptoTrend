@@ -81,22 +81,7 @@ def create_liste(postsTopic,listeCrypto):
 
 
 cryptoValid=create_liste(x,listeCrypto)
-"""
-print(cryptoValid)
-print(cryptoValid[1].get_cle())
-print(cryptoValid[0].get_nom())
-print(cryptoValid[1].get_marketCap())
-cryptoValid[0].get_price()
-cryptoValid[4].get_launch()[0:10]
-cryptoValid[0].get_localisation()
-"""
-#tab=["yoyoyo","yo","Ethereum"," $ 42","$ 1000","12 Novembre 1999"]
-#tab2=["test","tt","Ethereum"," $ 1000","$ 777","12 Novembre 1999"]
 
-lst=cryptoFindInfo.callReddit('ceek')
-lst
-lst[4].get_titre()
-len(lst)
 
 
 

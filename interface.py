@@ -7,16 +7,19 @@ import cryptoFindInfo
 #creer fenetre
 window = Tk()
 
-#Recupérer la valeur de l'item sélectionné et l'affiche
+
+
+#Recupérer la valeur de l'item sélectionné et l'afficher
 def selectItem(a):
-    curItem = tree.selection()[0]
+    curItem = tree.selection()[0] #curItem prend la valeur de l'item sélectionné
     print(curItem)
     
     idCrypto=coinmarketcap.cryptoValid[int(curItem)].get_cle() #Retrouver la clé de la bonne crypto à partir de son numéro
-    infoTexte=cryptoFindInfo.callReddit(idCrypto) #On stock dans infoTexte les texte liés à la crypto sélectionnée
+    infoTexteReddit=cryptoFindInfo.callReddit(idCrypto) #On stock dans infoTexteReddit les texte liés à la crypto sélectionnée
+    infoTexteJVC=cryptoFindInfo.callJVC(idCrypto) #On stock dans infoTexteJVC les texte liés à la crypto sélectionnée
     
     win = Toplevel(window)
-    win.title("Information sur les textes comptenants la crypto") 
+    win.title("Informations sur les textes en lien avec cette crypto") 
     win.geometry("1080x720")
     win.minsize(610,360)
     win.iconbitmap("logo_btc.ico") #revoir le logo
@@ -26,29 +29,57 @@ def selectItem(a):
     #Affiche le nom de la crypto en titre
     label_titlebis=Label(framebis, text=coinmarketcap.cryptoValid[int(curItem)].get_nom(), font=("Verdana",30),bg='#5C5E73',fg='white')
     label_titlebis.pack()
+    label_subtitle=Label(framebis, text="Informations sur les textes tirés Reddit et JVC ", font=("Verdana",18),bg='#5C5E73',fg='white')
+    label_subtitle.pack()
     framebis.pack(padx=20,pady=40)    
     
     #Tableau
     frame_tabbis = Frame(win)
     frame_tabbis.pack(padx=20,pady=20)
     
+    #Tree pour les textes Reddit
     treebis=ttk.Treeview(frame_tabbis, columns=(1,2,3,4),show="headings",height="10")
     treebis['columns']=("Titre","Url","Nbcom","Votes")
     treebis.column("Titre",width=300)
-    treebis.column("Url",width=150)
-    treebis.column("Nbcom",width=200)
-    treebis.column("Votes",width=150)
+    treebis.column("Url",width=200)
+    treebis.column("Nbcom",width=200,anchor=CENTER)
+    treebis.column("Votes",width=150,anchor=CENTER)
     ##Heading
     treebis.heading("Titre",text="Titre")
     treebis.heading("Url",text="Url")
     treebis.heading("Nbcom",text="Nombre de Commentaires")
     treebis.heading("Votes",text="Votes positifs")
-    
-    for i in range(len(infoTexte)):
+    #insertion des valeurs
+    for i in range(len(infoTexteReddit)):
         treebis.insert(parent='',index='end',iid=i,text="Parent",
-          values=(infoTexte[i].get_titre(),infoTexte[i].get_url(),infoTexte[i].get_nbCommentaire(),infoTexte[i].get_upvote() ))
-
-    treebis.pack()
+          values=(infoTexteReddit[i].get_titre(),infoTexteReddit[i].get_url(),infoTexteReddit[i].get_nbCommentaire(),infoTexteReddit[i].get_upvote() ))
+    #affichage du tree
+    treebis.pack() 
+    
+    #Tree pour les textes JVC
+    frame_tabter = Frame(win)
+    frame_tabter.pack(padx=20,pady=20)
+    
+    treeter=ttk.Treeview(frame_tabbis, columns=(1,2,3,4),show="headings",height="10")
+    treeter['columns']=("Titre","Url","Nbmsg","Derniermsg")
+    treeter.column("Titre",width=300)
+    treeter.column("Url",width=200)
+    treeter.column("Nbmsg",width=200,anchor=CENTER)
+    treeter.column("Derniermsg",width=150,anchor=CENTER)
+    ##Heading
+    treeter.heading("Titre",text="Titre")
+    treeter.heading("Url",text="Url")
+    treeter.heading("Nbmsg",text="Nombre de messages")
+    treeter.heading("Derniermsg",text="Dernier message")
+    #insertion des valeurs
+    for i in range(len(infoTexteJVC)):
+        treeter.insert(parent='',index='end',iid=i,text="Parent",
+          values=(infoTexteJVC[i].get_titre(),infoTexteJVC[i].get_url(),infoTexteJVC[i].get_nbCommentaire(),infoTexteJVC[i].get_dateDernierMsg()))
+    #affichage du tree
+    treeter.pack() 
+    
+    
+    
     
 #personnalisation
 window.title("Crypto Trend")
@@ -56,7 +87,7 @@ window.title("Crypto Trend")
 window.geometry("1080x720")
 window.minsize(610,360)
 window.iconbitmap("logo_btc.ico") 
-window.config(background='#5C5E73') #choisir couleur
+window.config(background='#5C5E73') 
 
 
 #Frame
@@ -97,8 +128,8 @@ tree.column("Lancement",width=120)
 tree.heading("Nom",text="Nom")
 tree.heading("Symbole",text="Symbole")
 tree.heading("Blockchain",text="Blockchain")
-tree.heading("MarketCap",text="MarketCap")
-tree.heading("Prix",text="Prix")
+tree.heading("MarketCap",text="MarketCap ($)")
+tree.heading("Prix",text="Prix ($)")
 tree.heading("Lancement",text="Lancement")
 
 tree.bind('<ButtonRelease-1>',selectItem)
@@ -116,14 +147,6 @@ for i in range(len(coinmarketcap.cryptoValid)):
           values=(coinmarketcap.cryptoValid[i].get_nom(),coinmarketcap.cryptoValid[i].get_cle(),coinmarketcap.cryptoValid[i].get_localisation(),
                   coinmarketcap.cryptoValid[i].get_marketCap(),coinmarketcap.cryptoValid[i].get_price(),coinmarketcap.cryptoValid[i].get_launch()[0:10]))
 
-
-"""
-tree.insert(parent='',index='end',iid=0,text="Parent",values=(coinmarketcap.tab[0],coinmarketcap.tab[1],coinmarketcap.tab[2],coinmarketcap.tab[3],
-                                                            coinmarketcap.tab[4],coinmarketcap.tab[5]))
-tree.insert(parent='',index='end',iid=1,text="Parent",values=(coinmarketcap.tab2[0],coinmarketcap.tab2[1],coinmarketcap.tab2[2],coinmarketcap.tab2[3],
-                                                            coinmarketcap.tab2[4],coinmarketcap.tab2[5]))
-
-"""
 tree.pack()
 
 
