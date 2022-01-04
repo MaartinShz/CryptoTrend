@@ -2,6 +2,7 @@ import Crypto
 import praw
 from prawcore import NotFound
 from requests_html import HTMLSession
+import re
 
 def callReddit(cryptoCle):
     docsReddit=[]
@@ -44,22 +45,23 @@ def callJVC(cryptoCle):
     
     session = HTMLSession()
     url = session.get(link)
-    topics = url.html.find("a.topic-title")
-    auteurs = url.html.find("span.topic-subject")
-    nbMsg = url.html.find("span.topic-count")
-    date = url.html.find("span.topic-date")
+    page = url.html.find("a.topic-title")
+    print(len(page))
     
-    #<a href="https://www.jeuxvideo.com/profil/leguerrier55?mode=infos" 
-    #target="_blank" class="xXx text-user topic-author">
+    BlocInfos = page[0].text[0:page[0].text.find("Résultats pour la recherche de")-1]
+    #print(BlocInfos)
+    listeInfos = re.split('\n',BlocInfos)
+    #print(listeInfos)
+    for ligne in listeInfos:
+        chaine = re.split(" ", ligne)
         
-    
-    print(len(topics))
+        print(chaine[0:-3])#titre
+        auteur = chaine[-3])#auteur
+        nbMsg = haine[-2])#nb msg
+        date = chaine[-1])#date
 
-    
-    print(topics[0])
     
     return docsReddit
 
 
 print(callJVC('ceek'))
-#print(callJVC('egld'))
