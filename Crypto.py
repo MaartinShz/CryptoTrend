@@ -41,19 +41,42 @@ class Texte:
     def __str__(self):
         return f'Texte({self.id}, {self.source})'
     
+    def get_id(self):
+        return self.id
+
+    def get_url(self):
+        return self.url
+    
+    def get_source(self):
+        return self.source
+    
+    
 class TexteReddit(Texte):
-    def __init__(self, id, url, source, titre, texte, auteur, nbCommentaite, upvote, dateCreation):
+    def __init__(self, id, url, source, titre, texte, auteur, nbCommentaire, upvote, dateCreation):
         Texte.__init__(self, id, url, source)
         self.titre =  titre
         self.texte = texte
         self.auteur = auteur
-        self.nbCommentaite = nbCommentaite
+        self.nbCommentaire = nbCommentaire
         self.upvote = upvote
         self.dateCreation = dateCreation
+        
     def __str__(self):
         return f'TexteReddit({self.id}, {self.source}, {self.upvote})'
+    
     def __repr__(self):
-        return f"{self.titre}" 
+        return f"{self.titre}"
+    
+    def get_titre(self):
+        return self.titre
+
+    def get_nbCommentaire(self):
+        return self.nbCommentaire
+    
+    def get_upvote(self):
+        return self.upvote
+    
+    
 
 #test = Crypto('cle', 'nom', 'marketCap', 'price', 'launch', 'localisation')
 #test = Texte('id', 'url', 'source')
