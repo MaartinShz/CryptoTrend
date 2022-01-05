@@ -7,21 +7,20 @@ import cryptoFindInfo
 import cryptoDataJVC
 import cryptoFindKey
 
-#---------------------------
-#On récupère la liste des cryptos de JVC
-#---------------------------
 
-url = "https://www.jeuxvideo.com/forums/42-3011927-68193322-1-0-1-0-ceek-vr-meta-space-x-nasa-votre-excuse-pour-ne-pas-monter-dans-le-train.htm"
-#x = cryptoDataJVC.getTopics()
-x = cryptoDataJVC.getPostsTopic(url) #j'ai remis ca pour l'instant ca utilise moins de crédits
+#On récupère la liste des cryptos de JVC
+#url = "https://www.jeuxvideo.com/forums/42-3011927-68193322-1-0-1-0-ceek-vr-meta-space-x-nasa-votre-excuse-pour-ne-pas-monter-dans-le-train.htm"
+x = cryptoDataJVC.getTopics()
+#áx = cryptoDataJVC.getPostsTopic(url) #j'ai remis ca pour l'instant ca utilise moins de crédits
 listeCrypto=cryptoFindKey.getCryptoKey(x)
 
+#On vérifie que ces crytpos existent
 cryptoValid=coinmarketcap.create_liste(x,listeCrypto)
 
 
-#creer fenetre
+#créer fenêtre
 window = Tk()
-
+    
 #Fonction pour recupérer la valeur de la crypto sélectionné et afficher ses caractéristiques (textes/topics où elle est évoquée)
 def selectItem(a):
     curItem = tree.selection()[0] #curItem prend la valeur de l'item sélectionné
@@ -53,10 +52,10 @@ def selectItem(a):
     #Tree pour les textes Reddit
     treebis=ttk.Treeview(frame_tabbis, columns=(1,2,3,4),show="headings",height="10")
     treebis['columns']=("Titre","Url","Nbcom","Votes")
-    treebis.column("Titre",width=300)
-    treebis.column("Url",width=200)
-    treebis.column("Nbcom",width=200,anchor=CENTER)
-    treebis.column("Votes",width=150,anchor=CENTER)
+    treebis.column("Titre",width=350)
+    treebis.column("Url",width=270)
+    treebis.column("Nbcom",width=240,anchor=CENTER)
+    treebis.column("Votes",width=170,anchor=CENTER)
     ##Heading
     treebis.heading("Titre",text="Titre")
     treebis.heading("Url",text="Url")
@@ -75,10 +74,10 @@ def selectItem(a):
     
     treeter=ttk.Treeview(frame_tabbis, columns=(1,2,3,4),show="headings",height="10")
     treeter['columns']=("Titre","Url","Nbmsg","Derniermsg")
-    treeter.column("Titre",width=300)
-    treeter.column("Url",width=200)
-    treeter.column("Nbmsg",width=200,anchor=CENTER)
-    treeter.column("Derniermsg",width=150,anchor=CENTER)
+    treeter.column("Titre",width=350)
+    treeter.column("Url",width=270)
+    treeter.column("Nbmsg",width=240,anchor=CENTER)
+    treeter.column("Derniermsg",width=170,anchor=CENTER)
     ##Heading
     treeter.heading("Titre",text="Titre")
     treeter.heading("Url",text="Url")
@@ -90,8 +89,6 @@ def selectItem(a):
           values=(infoTexteJVC[i].get_titre(),infoTexteJVC[i].get_url(),infoTexteJVC[i].get_nbCommentaire(),infoTexteJVC[i].get_dateDernierMsg()))
     #affichage du tree
     treeter.pack() 
-    
-    
     
     
 #Page principale contenant la liste des cryptos récupérées
@@ -130,12 +127,12 @@ my_scrollbar.pack(side=RIGHT,fill=Y)
 ##Colonnes
 tree['columns']=("Nom","Symbole","Blockchain","MarketCap","Prix","Lancement")
 
-tree.column("Nom",width=150)
-tree.column("Symbole",width=120,anchor=CENTER)
-tree.column("Blockchain",width=120,anchor=CENTER)
-tree.column("MarketCap",width=150)
-tree.column("Prix",width=120)
-tree.column("Lancement",width=120)
+tree.column("Nom",width=170)
+tree.column("Symbole",width=150,anchor=CENTER)
+tree.column("Blockchain",width=150,anchor=CENTER)
+tree.column("MarketCap",width=170)
+tree.column("Prix",width=150)
+tree.column("Lancement",width=150)
 
 ##Heading
 tree.heading("Nom",text="Nom")
@@ -144,7 +141,7 @@ tree.heading("Blockchain",text="Blockchain")
 tree.heading("MarketCap",text="MarketCap ($)")
 tree.heading("Prix",text="Prix ($)")
 tree.heading("Lancement",text="Lancement")
-#bind : lorsque l'on sélectionne une crypto, appelle la fonction "selectItem
+#bind : lorsque l'on sélectionne une crypto, appelle la fonction "selectItem"
 tree.bind('<ButtonRelease-1>',selectItem)
 ##Style
 style = ttk.Style()
