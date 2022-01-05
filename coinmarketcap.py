@@ -67,8 +67,6 @@ def create_liste(postsTopic,listeCrypto):
     return(liste_crypto)
 
 
-#cryptoValid=create_liste(x,listeCrypto)
-
 
 
 
