@@ -33,29 +33,28 @@ class Crypto:
         return self.localisation
     
 class Texte:
-    def __init__(self, id, url, source):
+    def __init__(self, id, url, source, titre, auteur):
         self.id = id
         self.url = url
         self.source = source
+        self.titre =  titre
+        self.auteur = auteur
         
     def __str__(self):
         return f'Texte({self.id}, {self.source})'
-    
     def get_id(self):
         return self.id
-
     def get_url(self):
         return self.url
-    
+    def get_titre(self):
+        return self.titre
     def get_source(self):
         return self.source
     
     
 class TexteReddit(Texte):
     def __init__(self, id, url, titre, texte, auteur, nbCommentaire, upvote, dateCreation):
-        Texte.__init__(self, id, url, 'reddit')
-        self.titre =  titre
-        self.texte = texte
+        Texte.__init__(self, id, url, 'reddit',titre, auteur)
         self.auteur = auteur
         self.nbCommentaire = nbCommentaire
         self.upvote = upvote
@@ -66,9 +65,6 @@ class TexteReddit(Texte):
     
     def __repr__(self):
         return f"{self.titre}"
-    
-    def get_titre(self):
-        return self.titre
 
     def get_nbCommentaire(self):
         return self.nbCommentaire
@@ -76,11 +72,12 @@ class TexteReddit(Texte):
     def get_upvote(self):
         return self.upvote
     
+    def get_titre(self):
+        return self.titre
+    
 class TexteJVC(Texte):
     def __init__(self, id, url, titre, auteur, nbMsg, dateDernierMsg):
-        Texte.__init__(self, id, url, 'jvc')
-        self.titre =  titre
-        self.auteur = auteur
+        Texte.__init__(self, id, url, 'jvc',titre, auteur)
         self.nbMsg = nbMsg
         self.dateDernierMsg = dateDernierMsg
         
@@ -89,15 +86,15 @@ class TexteJVC(Texte):
     
     def __repr__(self):
         return f"{self.source}, {self.titre}"
-    
-    def get_titre(self):
-        return self.titre
 
     def get_nbCommentaire(self):
         return self.nbMsg
     
     def get_dateDernierMsg(self):
         return self.dateDernierMsg
+    
+    def get_titre(self):
+        return self.titre
 
 
 
