@@ -3,6 +3,7 @@ import praw
 from prawcore import NotFound
 from requests_html import HTMLSession
 import re
+import uuid
 
 def callReddit(cryptoCle):
     docsReddit=[]
@@ -32,7 +33,7 @@ def callReddit(cryptoCle):
     #---------------------------
     postsearch = reddit.subreddit('all')
     for postCryptoAll in postsearch.search(cryptoCle, limit=10):
-        txtRedditAll = Crypto.TexteReddit("id", postCryptoAll.url, postCryptoAll.title, postCryptoAll.selftext, postCryptoAll.author, postCryptoAll.num_comments, postCryptoAll.score, postCryptoAll.created_utc)
+        txtRedditAll = Crypto.TexteReddit(uuid.uuid1(), postCryptoAll.url, postCryptoAll.title, postCryptoAll.selftext, postCryptoAll.author, postCryptoAll.num_comments, postCryptoAll.score, postCryptoAll.created_utc)
         docsReddit.append(txtRedditAll)
        
     return docsReddit
@@ -45,13 +46,13 @@ def callJVC(cryptoCle):
     session = HTMLSession()
     url = session.get(link)
     page = url.html.find("a.topic-title")
-    
-    
-    
+  
     BlocInfos = page[0].text[0:page[0].text.find("Résultats pour la recherche de")-1]
     #print(BlocInfos)
     listeInfos = re.split('\n',BlocInfos)
     #print(listeInfos)
+    
+    i = 0 #compteur qui permet de selectionner la ligne pour avoir plus tard l'url correpondante
     for ligne in listeInfos:
         pos=[]
         for match in re.finditer(" ", ligne):
@@ -64,21 +65,19 @@ def callJVC(cryptoCle):
         auteurJVC = chaine[-3]#auteur
         nbMsgJVC = chaine[-2]#nb msg
         dateDernierMsgJVC = chaine[-1]#date
-        
-        txtJVC= Crypto.TexteJVC('id', 'url', titreJVC, auteurJVC, nbMsgJVC, dateDernierMsgJVC)
-        docsJVC.append(txtJVC)
-        
-    ####
-    #data = url.html.links
-    # for x in data:
-    #     print(x)
+        urlJVC = "https://www.jeuxvideo.com/" + page[i].attrs["href"] #url du topic traitant de la crypto
+        i=i+1
+
+        txtJVC= Crypto.TexteJVC(uuid.uuid1(), urlJVC, titreJVC, auteurJVC, nbMsgJVC, dateDernierMsgJVC)
+        docsJVC.append(txtJVC) 
+
 
     return docsJVC
 
-#print(callJVC('ceek'))
+print(callJVC('ceek'))
 #print(callReddit('ceek'))
 #test=callJVC('ceek')
-#test[0].get_dateDernierMsg() #Out[7]: '08:39:17' Jsp si c'est utilisable ça
+
 
 
 
