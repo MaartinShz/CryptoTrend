@@ -72,8 +72,6 @@ class TexteReddit(Texte):
     def get_upvote(self):
         return self.upvote
     
-    def get_titre(self):
-        return self.titre
     
 class TexteJVC(Texte):
     def __init__(self, id, url, titre, auteur, nbMsg, dateDernierMsg):
@@ -93,11 +91,9 @@ class TexteJVC(Texte):
     def get_dateDernierMsg(self):
         return self.dateDernierMsg
     
-    def get_titre(self):
-        return self.titre
 
-
-
+# txtTest = TexteReddit('id', 'url', 'titre', 'texte', 'auteur', 'nbCommentaire', 'upvote', 'dateCreation')
+# print(txtTest.get_titre())
 
 
 
