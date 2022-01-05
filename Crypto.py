@@ -8,6 +8,7 @@ class Crypto:
         self.localisation = localisation
     
         self.corpus = []
+        
     def __str__(self):
        return f"{self.cle}, {self.nom}, {self.marketCap}"  
      # Fonction qui renvoie le texte à afficher lorsqu'on tape repr(classe)
@@ -31,6 +32,15 @@ class Crypto:
     
     def get_localisation(self):
         return self.localisation
+    
+    def get_corpus(self):
+        return self.corpus
+    
+    
+    def addTexte(self, docs):
+        self.corpus =  self.corpus + docs
+        
+    
     
 class Texte:
     def __init__(self, id, url, source, titre, auteur):
@@ -90,10 +100,3 @@ class TexteJVC(Texte):
     
     def get_dateDernierMsg(self):
         return self.dateDernierMsg
-    
-
-# txtTest = TexteReddit('id', 'url', 'titre', 'texte', 'auteur', 'nbCommentaire', 'upvote', 'dateCreation')
-# print(txtTest.get_titre())
-
-
-
