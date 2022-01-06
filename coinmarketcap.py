@@ -1,8 +1,6 @@
 from requests import Request, Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
-import decimal
-
 from Crypto import Crypto
 
 #---------------------------
@@ -17,7 +15,9 @@ def validCrypto(symbole): #On rentre le symbole de la crypto en entrée
         }
     headers = {
         'Accepts': 'application/json',
-        'X-CMC_PRO_API_KEY': '79674268-4592-43f3-8fb2-1ddb6939b324', #Clé que l'on utilise sur Coinmarketcap
+        'X-CMC_PRO_API_KEY': '994352b1-f247-4a59-82e4-0f117bf65dbf', #Clé que l'on utilise sur Coinmarketcap
+        #79674268-4592-43f3-8fb2-1ddb6939b324 # cle1
+        #994352b1-f247-4a59-82e4-0f117bf65dbf # cle2
     }
     session = Session()
     session.headers.update(headers)
@@ -36,14 +36,15 @@ def validCrypto(symbole): #On rentre le symbole de la crypto en entrée
 #--------------------------- 
 
 #variables en entrée : liste des topics récupérés (voir CryptoDataJVC) et la liste des cryptos récupérées de JVC (voir cryptoFindKey)
-def create_liste(postsTopic,listeCrypto): 
+def create_liste(listeCrypto): 
     liste_crypto=[] #contient les instances de classe
     crypto_in_liste=[] #contient les symboles des crypto dans liste_crypto afin d'éviter les doublons
     for symbol in listeCrypto:
         nomSymbol=symbol
         recup=validCrypto(nomSymbol)
+        marketcap = 10000000000
         try: #marketcap < 1 milliard et crypto pas déjà dans la liste (on vérifie aussi marketcap > 0 car certains cas marketcap pas indiqué sur JVC donc on évite de récupérer 0)
-            if(0<recup['data'][nomSymbol]['quote']['USD']['market_cap']<1000000000 and (nomSymbol not in crypto_in_liste)): 
+            if(0<recup['data'][nomSymbol]['quote']['USD']['market_cap']<marketcap and (nomSymbol not in crypto_in_liste)): 
                 cle=recup['data'][nomSymbol]['symbol']
                 nom=recup['data'][nomSymbol]['name']
                 marketcap=round(recup['data'][nomSymbol]['quote']['USD']['market_cap'],2)

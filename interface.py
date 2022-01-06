@@ -1,7 +1,4 @@
 from tkinter import *
-from tkinter import ttk
-
-from Crypto import Crypto
 import coinmarketcap
 import cryptoFindInfo
 import cryptoDataJVC
@@ -18,51 +15,25 @@ listeCrypto=cryptoFindKey.getCryptoKey(x)
 #On vérifie que ces crytpos existent + récupération de ses données (prix, marketcap, etc)
 cryptoValid=coinmarketcap.create_liste(listeCrypto)
 
-    
+print("Les cryptos trouvées et vérifiées sont \n",cryptoValid)
+
 for i in range(len(cryptoValid)):
     
-    infoTexteReddit=cryptoFindInfo.callReddit(cryptoValid[i].get_cle())
-    infoTexteJVC=cryptoFindInfo.callJVC(cryptoValid[i].get_cle())
+    infoTexteReddit=cryptoFindInfo.callReddit(cryptoValid[i].get_cle())#On stock dans infoTexteReddit les texte liés à la crypto sélectionnée
+    infoTexteJVC=cryptoFindInfo.callJVC(cryptoValid[i].get_cle())#On stock dans infoTexteJVC les texte liés à la crypto sélectionnée
     cryptoValid[i].addTexte(infoTexteReddit)
     cryptoValid[i].addTexte(infoTexteJVC)
     
-    """
-    corp=cryptoValid[i].get_corpus()
-
-    indice=0
-    while corp[indice].get_source()=="reddit":
-        print(corp[indice].get_source())
-        print("-----")
-        print(corp[indice].get_titre())
-        indice+=1
-    print("###########################")
-    print("indice = ",indice)
-    
-    #affichage textes jvc
-    for j in range(indice, len(corp)):
-        print(corp[j].get_source())
-        print("-----")
-        print(j)
-        print("-----")
-        print(corp[j].get_titre())
-    
-    print("############################")
-    """
-
 
 ### Partie Graphique ###
-
+print("\n\n Partie Graphique \n\n")
 #créer fenêtre
 window = Tk()
-    
+
 #Fonction pour recupérer la valeur de la crypto sélectionné et afficher ses caractéristiques (textes/topics où elle est évoquée)
 def selectItem(a):
     curItem = tree.selection()[0] #curItem prend la valeur de l'item sélectionné
-    print("Dans notre liste : crypto numéro ",curItem)
-    
-    #idCrypto=cryptoValid[int(curItem)].get_cle() #Retrouver la clé de la bonne crypto à partir de son numéro
-    #infoTexteReddit=cryptoFindInfo.callReddit(idCrypto) #On stock dans infoTexteReddit les texte liés à la crypto sélectionnée
-    #infoTexteJVC=cryptoFindInfo.callJVC(idCrypto) #On stock dans infoTexteJVC les texte liés à la crypto sélectionnée
+    print("Dans notre liste : crypto ",cryptoValid[int(curItem)].get_nom())
     
     win = Toplevel(window)
     win.title("Informations sur les textes en lien avec cette crypto") 

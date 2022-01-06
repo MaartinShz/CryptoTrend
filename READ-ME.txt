@@ -1,10 +1,17 @@
-package necessaire
+Packages necessaires:
 
 requests-html :
 	conda install -c conda-forge requests-html
 praw :
 	conda install -c conda-forge praw
+
 prawcore
 re
+uuid
+tkinter
 requests
 json
+
+
+
+Pour démarrer le projet il faut exécuter le script interface.py

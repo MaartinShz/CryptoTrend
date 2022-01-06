@@ -12,12 +12,18 @@ def callReddit(cryptoCle):
     docsReddit=[]
     reddit = praw.Reddit(client_id='K-MXXSpylsdQT0bK2QZ-ZA', client_secret='853z2OVS5DKax8hcESS-B8rU1RkJqA', user_agent='test8080')
     
-    exists = True
-    try:
-        reddit.subreddits.search_by_name(cryptoCle, exact=True)
-        #on teste si il y a un subreddit dedié existe
-    except NotFound:
-        exists = False
+    
+    exists = False
+    
+    if(cryptoCle !='CALL' and cryptoCle !='TOP'): # CALL et TOP sont des chaines de caractère réservé par reddit
+        try:
+            reddit.subreddits.search_by_name(cryptoCle, exact=True)
+            exists = True
+            #on teste si il y a un subreddit dedié existe
+        except NotFound:
+            exists = False
+    
+    
     
     if(exists):
         #---------------------------
@@ -75,6 +81,3 @@ def callJVC(cryptoCle):
         docsJVC.append(txtJVC) 
 
     return docsJVC
-
-
-
