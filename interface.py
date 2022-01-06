@@ -7,16 +7,50 @@ import cryptoFindInfo
 import cryptoDataJVC
 import cryptoFindKey
 
+### Récupération des données nécessaires ###
 
 #On récupère la liste des cryptos de JVC
 #url = "https://www.jeuxvideo.com/forums/42-3011927-68193322-1-0-1-0-ceek-vr-meta-space-x-nasa-votre-excuse-pour-ne-pas-monter-dans-le-train.htm"
-x = cryptoDataJVC.getTopics()
 #x = cryptoDataJVC.getPostsTopic(url) #j'ai remis ca pour l'instant ca utilise moins de crédits
+x = cryptoDataJVC.getTopics()
 listeCrypto=cryptoFindKey.getCryptoKey(x)
 
-#On vérifie que ces crytpos existent + récupération de leurs infos
-cryptoValid=coinmarketcap.create_liste(x,listeCrypto)
+#On vérifie que ces crytpos existent + récupération de ses données (prix, marketcap, etc)
+cryptoValid=coinmarketcap.create_liste(listeCrypto)
 
+    
+for i in range(len(cryptoValid)):
+    
+    infoTexteReddit=cryptoFindInfo.callReddit(cryptoValid[i].get_cle())
+    infoTexteJVC=cryptoFindInfo.callJVC(cryptoValid[i].get_cle())
+    cryptoValid[i].addTexte(infoTexteReddit)
+    cryptoValid[i].addTexte(infoTexteJVC)
+    
+    """
+    corp=cryptoValid[i].get_corpus()
+
+    indice=0
+    while corp[indice].get_source()=="reddit":
+        print(corp[indice].get_source())
+        print("-----")
+        print(corp[indice].get_titre())
+        indice+=1
+    print("###########################")
+    print("indice = ",indice)
+    
+    #affichage textes jvc
+    for j in range(indice, len(corp)):
+        print(corp[j].get_source())
+        print("-----")
+        print(j)
+        print("-----")
+        print(corp[j].get_titre())
+    
+    print("############################")
+    """
+
+
+### Partie Graphique ###
 
 #créer fenêtre
 window = Tk()
@@ -24,17 +58,17 @@ window = Tk()
 #Fonction pour recupérer la valeur de la crypto sélectionné et afficher ses caractéristiques (textes/topics où elle est évoquée)
 def selectItem(a):
     curItem = tree.selection()[0] #curItem prend la valeur de l'item sélectionné
-    #print("Dans notre liste : crypto numéro ",curItem)
+    print("Dans notre liste : crypto numéro ",curItem)
     
-    idCrypto=cryptoValid[int(curItem)].get_cle() #Retrouver la clé de la bonne crypto à partir de son numéro
-    infoTexteReddit=cryptoFindInfo.callReddit(idCrypto) #On stock dans infoTexteReddit les texte liés à la crypto sélectionnée
-    infoTexteJVC=cryptoFindInfo.callJVC(idCrypto) #On stock dans infoTexteJVC les texte liés à la crypto sélectionnée
+    #idCrypto=cryptoValid[int(curItem)].get_cle() #Retrouver la clé de la bonne crypto à partir de son numéro
+    #infoTexteReddit=cryptoFindInfo.callReddit(idCrypto) #On stock dans infoTexteReddit les texte liés à la crypto sélectionnée
+    #infoTexteJVC=cryptoFindInfo.callJVC(idCrypto) #On stock dans infoTexteJVC les texte liés à la crypto sélectionnée
     
     win = Toplevel(window)
     win.title("Informations sur les textes en lien avec cette crypto") 
     win.geometry("1080x720")
     win.minsize(610,360)
-    win.iconbitmap("logo_btc.ico") 
+    win.iconbitmap("logo_btc.ico") #revoir le logo
     win.config(background='#5C5E73')
     #fenêtre pour le titre et sous-titre
     framebis = Frame(win, bg='#5C5E73', bd=1, relief=SUNKEN)
@@ -61,14 +95,19 @@ def selectItem(a):
     treebis.heading("Url",text="Url")
     treebis.heading("Nbcom",text="Nombre de Commentaires")
     treebis.heading("Votes",text="Votes positifs")
-    #insertion des valeurs 
-    print("Url Reddit")
-    for i in range(len(infoTexteReddit)):
-        treebis.insert(parent='',index='end',iid=i,text="Parent",
-          values=(infoTexteReddit[i].get_titre(),infoTexteReddit[i].get_url(),infoTexteReddit[i].get_nbCommentaire(),infoTexteReddit[i].get_upvote()))
-        print("url ",i," : ",infoTexteReddit[i].get_url())
-    #Nous voulions que les url soient cliquables directement dans l'interface, nous n'avons cependant pas réussi
-    #Nous avons alors décidé des les afficher dans la console afin que l'utilisateur puisse, s'il le souhaite, les copier coller
+    
+    #insertion des valeurs reddit
+    corp=cryptoValid[int(curItem)].get_corpus() #Récupération du corpus
+    indice=0
+    while corp[indice].get_source()=="reddit":
+        treebis.insert(parent='',index='end',iid=indice,text="Parent",
+          values=(corp[indice].get_titre(),corp[indice].get_url(),corp[indice].get_nbCommentaire(),corp[indice].get_upvote() ))
+        indice+=1
+        
+    
+    #for i in range(len(infoTexteReddit)):
+    #    treebis.insert(parent='',index='end',iid=i,text="Parent",
+    #      values=(infoTexteReddit[i].get_titre(),infoTexteReddit[i].get_url(),infoTexteReddit[i].get_nbCommentaire(),infoTexteReddit[i].get_upvote() ))
     
     
     #affichage du tree
@@ -89,12 +128,16 @@ def selectItem(a):
     treeter.heading("Url",text="Url")
     treeter.heading("Nbmsg",text="Nombre de messages")
     treeter.heading("Derniermsg",text="Dernier message")
-    #insertion des valeurs
-    print("Url JVC")
-    for i in range(len(infoTexteJVC)):
-        treeter.insert(parent='',index='end',iid=i,text="Parent",
-          values=(infoTexteJVC[i].get_titre(),infoTexteJVC[i].get_url(),infoTexteJVC[i].get_nbCommentaire(),infoTexteJVC[i].get_dateDernierMsg()))
-        print("url ",i," : ",infoTexteJVC[i].get_url())
+    
+    #insertion des valeurs jvc
+    for i in range(indice, len(corp)):
+       treeter.insert(parent='',index='end',iid=i,text="Parent",
+         values=(corp[i].get_titre(),corp[i].get_url(),corp[i].get_nbCommentaire(),corp[i].get_dateDernierMsg()))
+    
+    #for i in range(len(infoTexteJVC)):
+    #    treeter.insert(parent='',index='end',iid=i,text="Parent",
+    #      values=(infoTexteJVC[i].get_titre(),infoTexteJVC[i].get_url(),infoTexteJVC[i].get_nbCommentaire(),infoTexteJVC[i].get_dateDernierMsg()))
+    
     #affichage du tree
     treeter.pack() 
     
@@ -168,30 +211,3 @@ tree.pack()
 
 #afficher
 window.mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
