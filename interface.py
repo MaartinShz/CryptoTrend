@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 import coinmarketcap
 import cryptoFindInfo
 import cryptoDataJVC
@@ -7,8 +8,6 @@ import cryptoFindKey
 ### Récupération des données nécessaires ###
 
 #On récupère la liste des cryptos de JVC
-#url = "https://www.jeuxvideo.com/forums/42-3011927-68193322-1-0-1-0-ceek-vr-meta-space-x-nasa-votre-excuse-pour-ne-pas-monter-dans-le-train.htm"
-#x = cryptoDataJVC.getPostsTopic(url) #j'ai remis ca pour l'instant ca utilise moins de crédits
 x = cryptoDataJVC.getTopics()
 listeCrypto=cryptoFindKey.getCryptoKey(x)
 
@@ -30,7 +29,7 @@ print("\n\n Partie Graphique \n\n")
 #créer fenêtre
 window = Tk()
 
-#Fonction pour recupérer la valeur de la crypto sélectionné et afficher ses caractéristiques (textes/topics où elle est évoquée)
+#Fonction pour recupérer la valeur de la crypto sélectionnée et afficher ses caractéristiques (textes/topics où elle est évoquée)
 def selectItem(a):
     curItem = tree.selection()[0] #curItem prend la valeur de l'item sélectionné
     print("Dans notre liste : crypto ",cryptoValid[int(curItem)].get_nom())
@@ -67,20 +66,14 @@ def selectItem(a):
     treebis.heading("Nbcom",text="Nombre de Commentaires")
     treebis.heading("Votes",text="Votes positifs")
     
-    #insertion des valeurs reddit
-    corp=cryptoValid[int(curItem)].get_corpus() #Récupération du corpus
-    indice=0
+    #insertion des textes Reddit
+    corp=cryptoValid[int(curItem)].get_corpus() #Récupération du corpus de la crypto sélectionnée
+    indice=0 #On créé un indice qui servira à séparer les textes de reddit et de JVC présents dans le corpus
     while corp[indice].get_source()=="reddit":
         treebis.insert(parent='',index='end',iid=indice,text="Parent",
           values=(corp[indice].get_titre(),corp[indice].get_url(),corp[indice].get_nbCommentaire(),corp[indice].get_upvote() ))
         indice+=1
-        
-    
-    #for i in range(len(infoTexteReddit)):
-    #    treebis.insert(parent='',index='end',iid=i,text="Parent",
-    #      values=(infoTexteReddit[i].get_titre(),infoTexteReddit[i].get_url(),infoTexteReddit[i].get_nbCommentaire(),infoTexteReddit[i].get_upvote() ))
-    
-    
+
     #affichage du tree
     treebis.pack() 
     
@@ -100,14 +93,10 @@ def selectItem(a):
     treeter.heading("Nbmsg",text="Nombre de messages")
     treeter.heading("Derniermsg",text="Dernier message")
     
-    #insertion des valeurs jvc
+    #insertion des textes JVC
     for i in range(indice, len(corp)):
        treeter.insert(parent='',index='end',iid=i,text="Parent",
          values=(corp[i].get_titre(),corp[i].get_url(),corp[i].get_nbCommentaire(),corp[i].get_dateDernierMsg()))
-    
-    #for i in range(len(infoTexteJVC)):
-    #    treeter.insert(parent='',index='end',iid=i,text="Parent",
-    #      values=(infoTexteJVC[i].get_titre(),infoTexteJVC[i].get_url(),infoTexteJVC[i].get_nbCommentaire(),infoTexteJVC[i].get_dateDernierMsg()))
     
     #affichage du tree
     treeter.pack() 

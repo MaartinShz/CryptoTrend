@@ -11,7 +11,7 @@ class Crypto:
         
     def __str__(self):
        return f"{self.cle}, {self.nom}, {self.marketCap}"  
-     # Fonction qui renvoie le texte à afficher lorsqu'on tape repr(classe)
+   
     def __repr__(self):
         return f"{self.nom}" 
     
@@ -36,7 +36,7 @@ class Crypto:
     def get_corpus(self):
         return self.corpus
     
-    
+    #Pour ajouter un texte au corpus
     def addTexte(self, docs):
         self.corpus =  self.corpus + docs
         
@@ -46,7 +46,7 @@ class Texte:
     def __init__(self, id, url, source, titre, auteur):
         self.id = id
         self.url = url
-        self.source = source
+        self.source = source #JVC ou Reddit
         self.titre =  titre
         self.auteur = auteur
         
@@ -61,7 +61,7 @@ class Texte:
     def get_source(self):
         return self.source
     
-    
+#Nous ne nous sommes pas servi de texte et auteur dans notre affichage, mais nous les avons gardés pour une potentielle amélioration future  
 class TexteReddit(Texte):
     def __init__(self, id, url, titre, texte, auteur, nbCommentaire, upvote, dateCreation):
         Texte.__init__(self, id, url, 'reddit',titre, auteur)

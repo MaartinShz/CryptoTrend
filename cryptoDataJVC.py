@@ -41,7 +41,7 @@ def getTopics():
 #getTopics()
 #------------------------------------------------------------------------------------------------------------
 
-################ FONCTIONS OPERATIONNELLES MAIS PAS UTILISEES DANS CE PROJET ################ 
+################ FONCTIONS OPERATIONNELLES MAIS FINALEMENT PAS UTILISEES DANS NOTRE AFFICHAGE ################ 
 
 #------------------------------------------------------------------------------------------------------------
 # getUrlTopics() fonction qui retourne les URL des topics sur la page principale du forum JVC Finance
@@ -60,7 +60,7 @@ def getUrlTopics():
         return listeUrlTopic
     
 #------------------------------------------------------------------------------------------------------------
-# getPostsTopic(urlTopic) fonction retourne toute les posts d'un topic JVC, l'URL du topic JVC est passé en paramètre$*$
+# getPostsTopic(urlTopic) fonction retourne tous les posts d'un topic JVC, l'URL du topic JVC est passé en paramètre$*$
 #------------------------------------------------------------------------------------------------------------
 def getPostsTopic(urlTopic):   
     session = HTMLSession()

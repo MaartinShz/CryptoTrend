@@ -17,7 +17,7 @@ def callReddit(cryptoCle):
         try:
             reddit.subreddits.search_by_name(cryptoCle, exact=True)
             exists = True
-            #on teste si il y a un subreddit dedié existe
+            #on teste si un subreddit dedié existe
         except NotFound:
             exists = False
     
@@ -25,10 +25,10 @@ def callReddit(cryptoCle):
         #---------------------------
         #post du subreddit dédié à la crypto
         #---------------------------
-        subreddit = reddit.subreddit(cryptoCle).hot(limit=10)# on sélectionne les 10 post les plus populaires
+        subreddit = reddit.subreddit(cryptoCle).hot(limit=10)# on sélectionne les 10 posts les plus populaires
         for postCrypto in subreddit:
             
-            # on créer un objet Texte REddit ayant toutes les informations nécessaire sur le post sur la crypto en paramètre
+            # on créé un objet Texte Reddit ayant toutes les informations nécessaires sur le post de la crypto en paramètre
             txtReddit = Crypto.TexteReddit(uuid.uuid1(), postCrypto.url, postCrypto.title, postCrypto.selftext, postCrypto.author, postCrypto.num_comments, postCrypto.score, postCrypto.created_utc)
             docsReddit.append(txtReddit)
             
@@ -43,7 +43,7 @@ def callReddit(cryptoCle):
     return docsReddit
 
 #------------------------------------------------------------------------------------------------------------
-# callJVC(cryptoCle) # méthode qui prend en paramètre une clé crypto et qui renvoie une liste de topic JVC en lien avec cette crypto
+# callJVC(cryptoCle) # méthode qui prend en paramètre une clé crypto et qui renvoie une liste de topics JVC en lien avec cette crypto
 #------------------------------------------------------------------------------------------------------------
 def callJVC(cryptoCle):
     docsJVC=[]

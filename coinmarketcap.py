@@ -16,8 +16,9 @@ def validCrypto(symbole): #On rentre le symbole de la crypto en entrée
     headers = {
         'Accepts': 'application/json',
         'X-CMC_PRO_API_KEY': '994352b1-f247-4a59-82e4-0f117bf65dbf', #Clé que l'on utilise sur Coinmarketcap
-        #79674268-4592-43f3-8fb2-1ddb6939b324 # cle1
-        #994352b1-f247-4a59-82e4-0f117bf65dbf # cle2
+        #994352b1-f247-4a59-82e4-0f117bf65dbf # cle1
+        #79674268-4592-43f3-8fb2-1ddb6939b324 # cle2 si clé 1 épuisée
+        
     }
     session = Session()
     session.headers.update(headers)
@@ -59,10 +60,10 @@ def create_liste(listeCrypto):
             else:
                 print("---------------------------------------------")
                 print("MarketCap déjà élevé ou non indiqué / Crypto déjà dans la liste ("+nomSymbol+")")
-        except KeyError:
+        except KeyError: #Erreur si la clé n'existe pas
             print("---------------------------------------------")
             print("Cette crypto n'existe pas ("+nomSymbol+")")
-        except TypeError:
+        except TypeError: #Erreur lorsque l'on essaye de récupérer des infos qui ne sont pas toujours indiquées sur coinmarketcap
             print("---------------------------------------------")
             print("Information manquante ("+nomSymbol+")")
     return(liste_crypto)

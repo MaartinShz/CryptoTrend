@@ -7,7 +7,7 @@ def getCryptoKey(listemots):
     regexCrypto = "^[A-Z]{3,12}$"
     clesCrypto=[]
     for cles in listemots:
-        # on vérfie qu'une chaine est à le format d'une clé de cryptomonnaie
+        # on vérfie qu'une chaine est du format d'une clé de cryptomonnaie
         if(re.search(regexCrypto, cles)):
             clesCrypto.append(cles)
     return clesCrypto
