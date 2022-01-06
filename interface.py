@@ -14,7 +14,7 @@ x = cryptoDataJVC.getTopics()
 #x = cryptoDataJVC.getPostsTopic(url) #j'ai remis ca pour l'instant ca utilise moins de crédits
 listeCrypto=cryptoFindKey.getCryptoKey(x)
 
-#On vérifie que ces crytpos existent
+#On vérifie que ces crytpos existent + récupération de leurs infos
 cryptoValid=coinmarketcap.create_liste(x,listeCrypto)
 
 
@@ -24,7 +24,7 @@ window = Tk()
 #Fonction pour recupérer la valeur de la crypto sélectionné et afficher ses caractéristiques (textes/topics où elle est évoquée)
 def selectItem(a):
     curItem = tree.selection()[0] #curItem prend la valeur de l'item sélectionné
-    print("Dans notre liste : crypto numéro ",curItem)
+    #print("Dans notre liste : crypto numéro ",curItem)
     
     idCrypto=cryptoValid[int(curItem)].get_cle() #Retrouver la clé de la bonne crypto à partir de son numéro
     infoTexteReddit=cryptoFindInfo.callReddit(idCrypto) #On stock dans infoTexteReddit les texte liés à la crypto sélectionnée
@@ -34,7 +34,7 @@ def selectItem(a):
     win.title("Informations sur les textes en lien avec cette crypto") 
     win.geometry("1080x720")
     win.minsize(610,360)
-    win.iconbitmap("logo_btc.ico") #revoir le logo
+    win.iconbitmap("logo_btc.ico") 
     win.config(background='#5C5E73')
     #fenêtre pour le titre et sous-titre
     framebis = Frame(win, bg='#5C5E73', bd=1, relief=SUNKEN)
@@ -62,9 +62,15 @@ def selectItem(a):
     treebis.heading("Nbcom",text="Nombre de Commentaires")
     treebis.heading("Votes",text="Votes positifs")
     #insertion des valeurs 
+    print("Url Reddit")
     for i in range(len(infoTexteReddit)):
         treebis.insert(parent='',index='end',iid=i,text="Parent",
-          values=(infoTexteReddit[i].get_titre(),infoTexteReddit[i].get_url(),infoTexteReddit[i].get_nbCommentaire(),infoTexteReddit[i].get_upvote() ))
+          values=(infoTexteReddit[i].get_titre(),infoTexteReddit[i].get_url(),infoTexteReddit[i].get_nbCommentaire(),infoTexteReddit[i].get_upvote()))
+        print("url ",i," : ",infoTexteReddit[i].get_url())
+    #Nous voulions que les url soient cliquables directement dans l'interface, nous n'avons cependant pas réussi
+    #Nous avons alors décidé des les afficher dans la console afin que l'utilisateur puisse, s'il le souhaite, les copier coller
+    
+    
     #affichage du tree
     treebis.pack() 
     
@@ -84,9 +90,11 @@ def selectItem(a):
     treeter.heading("Nbmsg",text="Nombre de messages")
     treeter.heading("Derniermsg",text="Dernier message")
     #insertion des valeurs
+    print("Url JVC")
     for i in range(len(infoTexteJVC)):
         treeter.insert(parent='',index='end',iid=i,text="Parent",
           values=(infoTexteJVC[i].get_titre(),infoTexteJVC[i].get_url(),infoTexteJVC[i].get_nbCommentaire(),infoTexteJVC[i].get_dateDernierMsg()))
+        print("url ",i," : ",infoTexteJVC[i].get_url())
     #affichage du tree
     treeter.pack() 
     
