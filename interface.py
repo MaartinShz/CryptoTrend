@@ -73,6 +73,7 @@ def selectItem(a):
         treebis.insert(parent='',index='end',iid=indice,text="Parent",
           values=(corp[indice].get_titre(),corp[indice].get_url(),corp[indice].get_nbCommentaire(),corp[indice].get_upvote() ))
         indice+=1
+        print("url Reddit ",indice," : ",corp[indice].get_url())
 
     #affichage du tree
     treebis.pack() 
@@ -97,7 +98,7 @@ def selectItem(a):
     for i in range(indice, len(corp)):
        treeter.insert(parent='',index='end',iid=i,text="Parent",
          values=(corp[i].get_titre(),corp[i].get_url(),corp[i].get_nbCommentaire(),corp[i].get_dateDernierMsg()))
-    
+       print("url JVC ",i," : ",corp[i].get_url())
     #affichage du tree
     treeter.pack() 
     
