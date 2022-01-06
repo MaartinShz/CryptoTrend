@@ -65,8 +65,3 @@ def create_liste(postsTopic,listeCrypto):
             print("---------------------------------------------")
             print("Information manquante ("+nomSymbol+")")
     return(liste_crypto)
-
-
-
-
-

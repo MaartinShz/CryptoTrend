@@ -11,7 +11,7 @@ import cryptoFindKey
 #On récupère la liste des cryptos de JVC
 #url = "https://www.jeuxvideo.com/forums/42-3011927-68193322-1-0-1-0-ceek-vr-meta-space-x-nasa-votre-excuse-pour-ne-pas-monter-dans-le-train.htm"
 x = cryptoDataJVC.getTopics()
-#áx = cryptoDataJVC.getPostsTopic(url) #j'ai remis ca pour l'instant ca utilise moins de crédits
+#x = cryptoDataJVC.getPostsTopic(url) #j'ai remis ca pour l'instant ca utilise moins de crédits
 listeCrypto=cryptoFindKey.getCryptoKey(x)
 
 #On vérifie que ces crytpos existent
