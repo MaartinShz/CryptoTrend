@@ -1,7 +1,6 @@
 from requests_html import HTMLSession
 import re
 
-
 #------------------------------------------------------------------------------------------------------------
 # getTopics() fonction qui recupère tout les titres des topics sur le forum JVC Finance de la page d'accueil
 #             et retourne une liste avec tout les mots de ces titres
