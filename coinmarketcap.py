@@ -44,7 +44,7 @@ def create_liste(listeCrypto):
         nomSymbol=symbol
         recup=validCrypto(nomSymbol)
         marketcap = 10000000000
-        try: #marketcap < 1 milliard et crypto pas déjà dans la liste (on vérifie aussi marketcap > 0 car certains cas marketcap pas indiqué sur JVC donc on évite de récupérer 0)
+        try: #marketcap < 10 milliards et crypto pas déjà dans la liste (on vérifie aussi marketcap > 0 car certains cas marketcap pas indiqué sur JVC donc on évite de récupérer 0)
             if(0<recup['data'][nomSymbol]['quote']['USD']['market_cap']<marketcap and (nomSymbol not in crypto_in_liste)): 
                 cle=recup['data'][nomSymbol]['symbol']
                 nom=recup['data'][nomSymbol]['name']

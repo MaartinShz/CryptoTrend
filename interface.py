@@ -38,7 +38,7 @@ def selectItem(a):
     win.title("Informations sur les textes en lien avec cette crypto") 
     win.geometry("1080x720")
     win.minsize(610,360)
-    win.iconbitmap("logo_btc.ico") #revoir le logo
+    win.iconbitmap("logo_btc.ico")
     win.config(background='#5C5E73')
     #fenêtre pour le titre et sous-titre
     framebis = Frame(win, bg='#5C5E73', bd=1, relief=SUNKEN)
